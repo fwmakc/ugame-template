@@ -13,9 +13,7 @@ export class ScenesManager {
   }
 
   async loop(deltaTime: number): Promise<void> {
-    await this.scenesStack.mount();
-    await this.scenesStack.update(deltaTime);
-    await this.scenesStack.render();
+    await this.scenesStack.loop(deltaTime);
   }
 
   getByName(sceneName: string): Array<Scene> {

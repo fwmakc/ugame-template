@@ -39,7 +39,13 @@ export class ScenesStack {
     });
   }
 
-  async mount(): Promise<void> {
+  async loop(deltaTime: number): Promise<void> {
+    await this.mount();
+    await this.update(deltaTime);
+    await this.render();
+  }
+
+  private async mount(): Promise<void> {
     for (const scene of this.stack) {
       if (!scene.created) continue;
       if (scene.mounted) continue;
@@ -48,7 +54,7 @@ export class ScenesStack {
     }
   }
 
-  async update(deltaTime: number): Promise<void> {
+  private async update(deltaTime: number): Promise<void> {
     for (const scene of this.stack) {
       if (!scene.created) continue;
       if (scene.actived) {
@@ -60,7 +66,7 @@ export class ScenesStack {
     }
   }
 
-  async render(): Promise<void> {
+  private async render(): Promise<void> {
     for (const scene of this.stack) {
       if (!scene.created) continue;
       await scene.render();
