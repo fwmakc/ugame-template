@@ -18,7 +18,7 @@ game.start(start);
 */
 
 import { wait } from 'lib-loop';
-import { Game, Scene } from './engine';
+import { Canvas, Game, Scene } from './engine';
 
 async function callbackMethod(this: any, delta: number, scene) {
   console.log(delta, scene);
@@ -91,4 +91,6 @@ game.scenes.add(test1Scene).then(() => {
 });
 game.scenes.add(test2Scene);
 
-game.start();
+// game.start();
+
+const canvas = new Canvas({ width: 500, height: 400 });
