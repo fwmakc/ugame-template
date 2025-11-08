@@ -1,3 +1,5 @@
+import { Game } from './game/game.class';
+import { Scene } from './scene/scene.class';
 import * as actors from './actors';
 import * as colors from './colors';
 import * as math from './math';
@@ -7,4 +9,15 @@ import * as system from './system';
 import * as tiles from './tiles';
 import * as vectors from './vectors';
 
-export { actors, colors, math, particles, sounds, system, tiles, vectors };
+export {
+  Game,
+  Scene,
+  actors,
+  colors,
+  math,
+  particles,
+  sounds,
+  system,
+  tiles,
+  vectors,
+};
