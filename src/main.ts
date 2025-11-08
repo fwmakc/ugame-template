@@ -41,7 +41,7 @@ class Test1Scene extends Scene {
   async render() {
     console.log('[1]testScene.render');
     console.log('wait...');
-    await wait(2000);
+    await wait(1000);
   }
   remove() {
     console.log('[1]testScene.remove');
