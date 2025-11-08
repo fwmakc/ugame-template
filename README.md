@@ -1,2 +1,236 @@
 # ugame-template
-Ugame templates for build your games
+
+Ugame шаблон для проектов:
+
+Смотрим, как что сделано отсюда:
+
+- little.js,
+- pixi.js,
+- phaser.js.
+
+В основе лежат:
+
+- typescript,
+- vite,
+- vitest,
+- eslint,
+- prettier,
+- electron.
+
+# Начало работы
+
+Создаем новую папку для проекта
+
+```
+mkdir my_project
+cd my_project
+```
+
+Клонируем репозиторий
+
+```
+git clone https://github.com/fwmakc/ts-game-project.git .
+```
+
+Устанавливаем
+
+```
+yarn
+```
+
+# Быстрый запуск
+
+В режиме разработки
+
+```
+yarn dev
+```
+
+# Запуск под десктоп
+
+В режиме разработки
+
+```
+yarn electron:dev
+```
+
+## Билд под десктопные устройства
+
+Выполняем предварительную сборку
+
+```
+yarn build
+```
+
+Собираем приложение под десктоп
+
+```
+yarn electron:make
+```
+
+Готовое приложение будет лежать в каталоге
+
+```
+out/template-vite-ts-win32-x64
+```
+
+## Подготовка к сборке под мобильные устройства
+
+Сборку делаем через capacitor. Полностью все происходит в несколько шагов.
+
+Для настройки отредактируйте файл
+
+```
+capacitor.config.ts
+```
+
+Добавляем мобильное устройство. Это нужно сделать один раз после развертывания проекта.
+
+```
+yarn cap add android
+```
+
+Созданный каталог android содержит множество настроек приложения, которые хотелось бы сохранить в репозитории. Но он также содержит много временных файлов и копии проекта и поэтому получается слишком большим.
+
+Мы создали другой каталог app, где вы можете хранить все настройки и ресурсы для сборки.
+
+Перед сборкой вам просто нужно скопировать его содержимое
+
+```
+cp -rf app/android/* android/app/src/main
+```
+
+или
+
+```
+xcopy app\android\* android\app\src\main /E /H /C /I /Y
+```
+
+Выполняем предварительную сборку
+
+```
+yarn build
+```
+
+Копируем собранный проект для следующего этапа
+
+```
+yarn cap copy
+```
+
+## Билд под мобильные устройства
+
+Для дальнейшей сборки под android лучше всего работать в контейнере nodejs из проекта https://github.com/isengine/server.git
+
+Перейдем в каталог
+
+```
+cd android
+```
+
+Билд в режиме дебаг:
+
+```
+./gradlew assembleDebug
+```
+
+Готовое приложение будет лежать в каталоге
+
+```
+android/app/build/outputs/apk/debug/app-debug.apk
+```
+
+Билд в продакшн:
+
+```
+./gradlew assembleRelease
+```
+
+Готовое приложение теперь будет лежать в каталоге
+
+```
+android/app/build/outputs/apk/release/app-release-unsigned.apk
+```
+
+Дальнейшие действия лучше выполнять из корневого каталога проекта
+
+```
+cd ..
+```
+
+Создаем ключ для подписи
+
+```
+keytool -genkey -v -keystore MY_RELEASE_KEY.jks -keyalg RSA -keysize 2048 -validity 10000 -alias MY_KEY_ALIAS
+
+```
+
+Запишите созданные пароли и alias, так как они понадобятся вам в дальнейшем.
+
+Создаем копию приложения
+
+```
+cp android/app/build/outputs/apk/release/app-release-unsigned.apk android/app/build/outputs/apk/release/app-release.apk
+```
+
+Подписываем приложение
+
+```
+apksigner sign --ks MY_RELEASE_KEY.jks --ks-key-alias MY_KEY_ALIAS --ks-pass pass:YOUR_KEYSTORE_PASSWORD --key-pass pass:YOUR_KEY_PASSWORD android/app/build/outputs/apk/release/app-release.apk
+```
+
+Можно проверить подпись
+
+```
+apksigner verify android/app/build/outputs/apk/release/app-release.apk
+```
+
+Если APK подписан правильно, вы не увидите никаких ошибок.
+
+# Тестирование
+
+Тестируем с помощью vitest.
+
+Vitest очень похож на jest, но сразу оптимизирован для использования с typescript и vite. С его помощью можно также тестировать DOM-элементы.
+
+Примеры использования приведены в проекте.
+
+Помещаем файл в папку **src/tests** и даем расширение **.test.ts**.
+
+Пример:
+
+```
+src/tests/example.test.ts
+```
+
+Для запуска всех тестов используем команду
+
+```
+yarn test
+```
+
+Чтобы запустить какой-либо определенный тест, указываем его в качестве аргумента:
+
+```
+yarn test ./src/tests/example.test.ts
+```
+
+# Лицензия
+
+Лицензия MIT, 2025
+
+Для работы использованы следующие библиотеки.
+
+**little.js**
+
+Версия 1.14.8 и выше.
+Под лицензией MIT.
+Ссылка: https://github.com/KilledByAPixel/LittleJS
+Лицензия: https://github.com/KilledByAPixel/LittleJS/blob/main/LICENSE
+
+**font-bescii**
+
+Версия 2.0 и выше.
+Под лицензией Creative Commons Legal Code CC0 1.0 Universal.
+Ссылка: https://github.com/damianvila/font-bescii
+Лицензия: https://github.com/damianvila/font-bescii?tab=License-1-ov-file#readme
