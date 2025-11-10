@@ -53,7 +53,7 @@ async function customLoopMethod(callback) {
   }
 };
 
-game.setLoop(customLoopMethod);
+game.loop.setMethod(customLoopMethod);
 ```
 
 Например, это может быть полезно, если вы запускаете игру в консоли или на устройстве, которое не поддерживает браузерный метод обновления **requestAnimationFrame**.

@@ -3,16 +3,12 @@ import { ScenesManager } from './scenes_manager/scenes_manager.class';
 
 export class Game {
   readonly scenes: ScenesManager = new ScenesManager();
+  readonly loop: GameLoop = new GameLoop();
 
-  private loop: GameLoop = new GameLoop();
   private play;
   private stopCallback;
 
   constructor() {
-    this.initLoop();
-  }
-
-  private initLoop() {
     this.loop.setCallback(async (deltaTime: number) => {
       await this.scenes.loop(deltaTime);
       return this.play;

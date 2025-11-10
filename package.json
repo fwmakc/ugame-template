@@ -50,7 +50,7 @@
     "vitest": "^3.2.4"
   },
   "dependencies": {
-    "lib-loop": "^0.1.1",
+    "lib-loop": "^0.1.3",
     "pixi.js": "^8.14.0"
   }
 }

@@ -20,28 +20,31 @@ game.start(start);
 import { wait } from 'lib-loop';
 import { Canvas, Game, Scene } from './engine';
 
-async function callbackMethod(this: any, delta: number, scene) {
-  console.log(delta, scene);
+async function callbackMethod(this: any, delta: number, scene, count) {
+  console.log(`[${count}]`, 1 / delta, delta);
   return true;
 }
 
 class Test1Scene extends Scene {
+  count = 0;
+
   async create() {
-    await wait(2000);
+    // await wait(2000);
     console.log('created...');
     console.log('[1]testScene.create');
   }
   mount() {
     console.log('[1]testScene.mount');
   }
-  update(delta) {
-    console.log('[1]testScene.update');
-    callbackMethod(delta, this);
+  async update(delta) {
+    // console.log('[1]testScene.update');
+    callbackMethod(delta, this, this.count);
+    this.count++;
+    await wait(1000);
   }
   async render() {
-    console.log('[1]testScene.render');
-    console.log('wait...');
-    await wait(1000);
+    // console.log('[1]testScene.render');
+    // console.log('wait...');
   }
   remove() {
     console.log('[1]testScene.remove');
@@ -58,7 +61,7 @@ class Test2Scene extends Scene {
     console.log('[2]testScene.mount');
   }
   async update() {
-    await wait(500);
+    // await wait(500);
     const { cyclesCount } = this;
     console.log('[2]testScene.update', cyclesCount);
 
@@ -91,6 +94,24 @@ game.scenes.add(test1Scene).then(() => {
 });
 game.scenes.add(test2Scene);
 
-// game.start();
+game.start();
 
-const canvas = new Canvas({ width: 500, height: 400 });
+const canvas = new Canvas({
+  width: 500,
+  height: 400,
+  background: '#cce',
+});
+
+canvas.rectangle({
+  x: 10,
+  y: 10,
+  width: 100,
+  height: 100,
+  fill: 'red',
+});
+
+canvas.layer[0].x = 120;
+canvas.layer[0].y = 180;
+canvas.layer[0].fill = 'blue';
+canvas.layer[0].borderColor = 'yellow';
+canvas.layer[0].borderWidth = 2;

@@ -1,27 +1,48 @@
+import { Rectangle } from './draw/primitives/rectangle.2d.primitive';
+
+type CanvasContextType = '2d' | 'webgl' | 'webgl2' | 'webgpu';
+
 interface ICanvasOptions {
   width: number;
   height: number;
+  background?: string;
+  context?: CanvasContextType;
 }
 
 export class Canvas {
-  constructor(options: ICanvasOptions) {
-    // Создание элемента канвас
-    const canvas = document.createElement('canvas');
+  canvas;
+  ctx;
+  layer: Array<any> = [];
 
-    canvas.width = options.width;
-    canvas.height = options.height;
+  constructor(options: ICanvasOptions) {
+    const {
+      width,
+      height,
+      background = 'transparent',
+      context = '2d',
+    } = options;
+
+    this.canvas = document.createElement('canvas');
+
+    this.canvas.width = width;
+    this.canvas.height = height;
+
+    // this.canvas.style.width = width;
+    // this.canvas.style.height = height;
+    this.canvas.style.background = background;
 
     // Добавление канваса в тело документа
-    document.body.appendChild(canvas);
+    document.body.appendChild(this.canvas);
 
     // Получение контекста рисования
-    const ctx = canvas.getContext('2d');
+    this.ctx = this.canvas.getContext(context);
 
-    if (!ctx) {
+    if (!this.ctx) {
       console.error('Canvas not set');
       return;
     }
 
+    /*
     // Рисуем квадрат
     ctx.fillStyle = 'blue'; // Установка цвета заливки
     ctx.fillRect(50, 50, 200, 150); // Рисуем квадрат с заданными координатами и размерами
@@ -31,5 +52,12 @@ export class Canvas {
     ctx.beginPath(); // Начало нового пути
     ctx.arc(300, 200, 50, 0, Math.PI * 2); // Создание круга с заданными координатами и радиусом
     ctx.fill(); // Заливка круга
+    */
+  }
+
+  rectangle(options) {
+    const rectangle = new Rectangle(this.ctx, options);
+    rectangle.draw();
+    this.layer.push(rectangle);
   }
 }
