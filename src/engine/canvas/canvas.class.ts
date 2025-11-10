@@ -55,6 +55,16 @@ export class Canvas {
     */
   }
 
+  clear() {
+    this.ctx.clearRect(0, 0, this.ctx.canvas.width, this.ctx.canvas.height);
+  }
+
+  draw() {
+    this.layer.forEach((figure) => {
+      figure.draw();
+    });
+  }
+
   rectangle(options) {
     const rectangle = new Rectangle(this.ctx, options);
     rectangle.draw();

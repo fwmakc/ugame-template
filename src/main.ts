@@ -78,11 +78,58 @@ class Test2Scene extends Scene {
   }
 }
 
+class CanvasScene extends Scene {
+  canvas;
+  x = 10;
+  y = 10;
+  create() {
+    this.canvas = new Canvas({
+      width: 500,
+      height: 400,
+      background: '#cce',
+    });
+  }
+  mount() {
+    this.canvas.rectangle({
+      x: this.x,
+      y: this.y,
+      width: 100,
+      height: 100,
+      fill: 'red',
+    });
+
+    this.canvas.rectangle({
+      x: 0,
+      y: 0,
+      width: 100,
+      height: 100,
+      fill: 'green',
+    });
+  }
+  async update() {}
+  render() {
+    this.canvas.layer[0].x = this.x;
+    this.canvas.layer[0].y = this.y;
+    this.canvas.layer[0].fill = 'blue';
+    this.canvas.layer[0].borderColor = 'yellow';
+    this.canvas.layer[0].borderWidth = 2;
+
+    this.x += 10;
+    this.y += 5;
+
+    this.canvas.clear();
+    this.canvas.draw();
+  }
+  remove() {}
+}
+
 const test1Scene = new Test1Scene('test1Scene', 0, 0);
 const test2Scene = new Test2Scene('test2Scene', 0, 0);
+const canvasScene = new CanvasScene('canvasScene', 0, 0);
 
 test1Scene.actived = true;
 test2Scene.actived = true;
+canvasScene.actived = true;
 
 const game = new Game();
 
@@ -93,25 +140,6 @@ game.scenes.add(test1Scene).then(() => {
   // });
 });
 game.scenes.add(test2Scene);
+game.scenes.add(canvasScene);
 
 game.start();
-
-const canvas = new Canvas({
-  width: 500,
-  height: 400,
-  background: '#cce',
-});
-
-canvas.rectangle({
-  x: 10,
-  y: 10,
-  width: 100,
-  height: 100,
-  fill: 'red',
-});
-
-canvas.layer[0].x = 120;
-canvas.layer[0].y = 180;
-canvas.layer[0].fill = 'blue';
-canvas.layer[0].borderColor = 'yellow';
-canvas.layer[0].borderWidth = 2;
