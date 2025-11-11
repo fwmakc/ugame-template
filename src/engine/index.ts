@@ -1,4 +1,4 @@
-import { Canvas } from './canvas/canvas.class';
+import { Canvas, Library } from './canvas';
 import { Game } from './game/game.class';
 import { Scene } from './scene/scene.class';
 import * as actors from './actors';
@@ -13,6 +13,7 @@ import * as vectors from './vectors';
 export {
   Canvas,
   Game,
+  Library,
   Scene,
   actors,
   colors,

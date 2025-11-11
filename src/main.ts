@@ -18,7 +18,7 @@ game.start(start);
 */
 
 import { wait } from 'lib-loop';
-import { Canvas, Game, Scene } from './engine';
+import { Canvas, Game, Library, Scene } from './engine';
 
 async function callbackMethod(this: any, delta: number, scene, count) {
   console.log(`[${count}]`, 1 / delta, delta);
@@ -80,6 +80,7 @@ class Test2Scene extends Scene {
 
 class CanvasScene extends Scene {
   canvas;
+  library;
   x = 10;
   y = 10;
   create() {
@@ -88,9 +89,10 @@ class CanvasScene extends Scene {
       height: 400,
       background: '#cce',
     });
+    this.library = new Library(this.canvas);
   }
   mount() {
-    this.canvas.rectangle({
+    const rect1 = this.library.rectangle({
       x: this.x,
       y: this.y,
       width: 100,
@@ -98,24 +100,50 @@ class CanvasScene extends Scene {
       fill: 'red',
     });
 
-    this.canvas.rectangle({
+    const rect2 = this.library.rectangle({
       x: 0,
       y: 0,
       width: 100,
       height: 100,
       fill: 'green',
     });
+
+    const round1 = this.library.round({
+      x: this.canvas.width / 2,
+      y: this.canvas.height / 2,
+      radius: 100,
+      fill: 'yellow',
+    });
+
+    this.canvas.layout.push('rect1', rect1);
+    this.canvas.layout.push('rect2', rect2);
+    this.canvas.layout.push('round1', round1);
+
+    this.canvas.draw();
+
+    // rectangle1.draw();
+    // rectangle2.draw();
   }
   async update() {}
   render() {
-    this.canvas.layer[0].x = this.x;
-    this.canvas.layer[0].y = this.y;
-    this.canvas.layer[0].fill = 'blue';
-    this.canvas.layer[0].borderColor = 'yellow';
-    this.canvas.layer[0].borderWidth = 2;
+    this.canvas.width -= 5;
 
-    this.x += 10;
-    this.y += 5;
+    this.canvas.layout.moveAfter('rect1', 'rect2');
+
+    const rect1 = this.canvas.layout.get('rect1');
+    rect1.x = this.x;
+    rect1.y = this.y;
+    rect1.fill = 'rgba(200,0,200,0.5)';
+    // rect1.fill = 'blue';
+    rect1.borderColor = 'yellow';
+    rect1.borderWidth = 2;
+
+    const rect2 = this.canvas.layout.get('rect2');
+    rect2.x += 10;
+    rect2.y += 5;
+
+    const round1 = this.canvas.layout.get('round1');
+    round1.x = this.canvas.width / 2;
 
     this.canvas.clear();
     this.canvas.draw();

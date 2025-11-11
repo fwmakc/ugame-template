@@ -23,7 +23,9 @@ export class Game {
     this.play = true;
     this.loop.start().then(() => {
       this.scenes.removeAll();
-      this.stopCallback();
+      if (this.stopCallback) {
+        this.stopCallback();
+      }
     });
   }
 

@@ -2959,6 +2959,11 @@ levn@^0.4.1:
     prelude-ls "^1.2.1"
     type-check "~0.4.0"
 
+lib-collection@^0.1.2:
+  version "0.1.2"
+  resolved "https://registry.yarnpkg.com/lib-collection/-/lib-collection-0.1.2.tgz#82231b654bc0207032b7ef14ba2437dc980b3dbb"
+  integrity sha512-8Ti7/SR5kiLUYhPyjNQFsmO1bx+7QKvFUGGB5fjHxdN83AvV+wAVLbCCid6wRo9/51ZXXfFSgVg5ogfKdamLMg==
+
 lib-loop@^0.1.3:
   version "0.1.3"
   resolved "https://registry.yarnpkg.com/lib-loop/-/lib-loop-0.1.3.tgz#3547f24b543f2be393798b2c508fd4993ae218bc"
